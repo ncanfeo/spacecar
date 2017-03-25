@@ -1,36 +1,23 @@
-import curses,os,thread
-from time import sleep
-from pynput import keyboard
+import os,thread,time,sys
+#import threading
+ 
+
 try:
-
     from msvcrt import getch
-
 except ImportError:
-
     def getch():
-
         import sys, tty, termios
-
         fd = sys.stdin.fileno()
-
         old_settings = termios.tcgetattr(fd)
-
         try:
-
             tty.setraw(sys.stdin.fileno())
-
             ch = sys.stdin.read(1)
-
         finally:
-
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-
         return ch
+def stop(self):
+    self.stopped = True
 char = None
-stdscr = curses.initscr()
-curses.noecho()
-curses.cbreak()
-stdscr.keypad(1)
 border = []
 a = []
 line = 2
@@ -45,23 +32,10 @@ for i in range(width  - 2):
 p  = 0
 def keypress():
 	global char
-	char = getch()
+	while 1:
+		char = getch()
+	#th.kill()
 thread.start_new_thread(keypress, ())
-
-"""while True:
-	if char is not None:
-		if char == 'w':
-			line += 1
-		if char == 's':
-			line -= 1"""
-"""def on_press(key):
-	global line
-    if key == keyboard.up:
-		line = line + 1
-with keyboard.Listener(
-        on_press=on_press
-        ) as listener:
-    listener.join()"""
 def clear_screen():
 	try:
 		os.system('clear')
@@ -77,7 +51,6 @@ def paint_game():
 		a.pop(0)
 		a.append("*")
 	clear_screen()
-	#stdscr.clear()
 	border = []
 	for i in range(width):
 		border.append("#")
@@ -88,23 +61,30 @@ def paint_game():
 	for i in range(lines-line):
 		print("#"+ "".join(a) +"#\r")
 	print("".join(border)+"\r")
-while 1:
-	thread.start_new_thread(keypress, ())
-	sleep(1)
-	paint_game()
-	if char is not None:
-		if char == 'w':
-			line -= 1
-			char = None
-		elif char == 's':
-			line += 1
-			char = None
-	#if stdscr.getch():
-	#	o = stdscr.getch()
-	#	if o == 259 and line != 1:
-	#		line -= 1
-	#	elif o == 258 and line != lines:
-	#		line += 1
+'''class Move(threading.Thread):
+    def run(self):
+        while True:
+            keypress()
+    def kill(self):
+		self.killed = True
+		'''
+             
 
-
-
+if __name__ =='__main__':
+	th = thread.start_new_thread(keypress, ())
+	while 1:
+		#th = Move()
+		#th.start()
+		#th = thread.start_new_thread(keypress, ())
+		time.sleep(0.25)
+		paint_game()
+		if char is not None:
+			if char == 'w' and line != 1:
+				line -= 1
+				char = None
+			elif char == 's' and line != lines:
+				line += 1
+				char = None
+			elif char == 'q':
+				sys.exit()
+				
