@@ -18,49 +18,37 @@ except ImportError:
 def stop(self):
     self.stopped = True
 char = None
-border = []
-a = []
-line = 2
-lines = 3
+line_now = 2
+height = 3
 width = 30
-spacecar = [">","0","0",">"]
-empty_spacecar = len(spacecar) * ' '
-for i in range(width):
-	border.append("#")
-for i in range(width  - 2):
-	a.append(" ")
-p  = 0
+border = list(width * "#")
+line_with_spacecar = list("#"+">00>"+(width - 6 )*" " + "#")
+empty_line = list("#" + (width -2)* " " + "#")
+i_for_meteorit  = 0
+
+spaces_level  = 7
+
 def keypress():
 	global char
 	while 1:
 		char = getch()
-	#th.kill()
-thread.start_new_thread(keypress, ())
+		
+def to_str(my_list):
+	return "".join(my_list) + "\r"
 def clear_screen():
 	try:
 		os.system('clear')
 	except:
 		os.system('cls')
 def paint_game():
-	global p
-	p += 1
-	if p % (len(spacecar) +1):
-		a.pop(0)
-		a.append(" ")
-	else:
-		a.pop(0)
-		a.append("*")
 	clear_screen()
-	border = []
-	for i in range(width):
-		border.append("#")
-	print("".join(border)+"\r")
-	for i in range(lines - 1 -(lines-line)):
-		print("#"+ "".join(a) +"#\r")
-	print("#"+"".join(spacecar) + "".join(a) +"#\r")
-	for i in range(lines-line):
-		print("#"+ "".join(a) +"#\r")
-	print("".join(border)+"\r")
+	print(to_str(border))
+	for i in range(height - 1 -(height-line_now)):
+		print(to_str(empty_line))
+	print(to_str(line_with_spacecar))
+	for i in range(height-line_now):
+		print(to_str(empty_line))
+	print(to_str(border))
 '''class Move(threading.Thread):
     def run(self):
         while True:
@@ -73,18 +61,24 @@ def paint_game():
 if __name__ =='__main__':
 	th = thread.start_new_thread(keypress, ())
 	while 1:
-		#th = Move()
-		#th.start()
-		#th = thread.start_new_thread(keypress, ())
-		time.sleep(0.25)
-		paint_game()
 		if char is not None:
-			if char == 'w' and line != 1:
-				line -= 1
+			if char == 'w' and line_now != 1:
+				if "*" not in empty_line[1:4] :
+					line_now -= 1
 				char = None
-			elif char == 's' and line != lines:
-				line += 1
+			elif char == 's' and line_now != height:
+				if "*" not in empty_line[1:4]:
+					line_now += 1
 				char = None
 			elif char == 'q':
 				sys.exit()
-				
+		i_for_meteorit += 1
+		if i_for_meteorit % (spaces_level):
+			empty_line.pop(1)
+			empty_line.insert(width- 2," ")
+		
+		else:
+			empty_line.pop(1)
+			empty_line.insert(width- 2,"*")
+		time.sleep(0.25)
+		paint_game()
