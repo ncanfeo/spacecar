@@ -1,6 +1,6 @@
 import os,thread,time,sys
 #import threading
- 
+from config import *
 
 try:
     from msvcrt import getch
@@ -17,16 +17,7 @@ except ImportError:
         return ch
 def stop(self):
     self.stopped = True
-char = None
-line_now = 2
-height = 3
-width = 30
-border = list(width * "#")
-line_with_spacecar = list("#"+">00>"+(width - 6 )*" " + "#")
-empty_line = list("#" + (width -2)* " " + "#")
-i_for_meteorit  = 0
 
-spaces_level  = 7
 
 def keypress():
 	global char
@@ -42,6 +33,7 @@ def clear_screen():
 		os.system('cls')
 def paint_game():
 	clear_screen()
+	print(str(hp) + "\r")
 	print(to_str(border))
 	for i in range(height - 1 -(height-line_now)):
 		print(to_str(empty_line))
@@ -63,11 +55,17 @@ if __name__ =='__main__':
 	while 1:
 		if char is not None:
 			if char == 'w' and line_now != 1:
-				if "*" not in empty_line[1:4] :
+				if "*" in empty_line[1:6] :
+					hp -= 2
+					line_now -= 1
+				else:
 					line_now -= 1
 				char = None
 			elif char == 's' and line_now != height:
-				if "*" not in empty_line[1:4]:
+				if "*" in empty_line[1:6]:
+					hp -= 2
+					line_now += 1
+				else:	
 					line_now += 1
 				char = None
 			elif char == 'q':
