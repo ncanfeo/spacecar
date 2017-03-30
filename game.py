@@ -1,5 +1,6 @@
-import os,thread,time,sys
-#import threading
+import os,time,sys
+#import thread
+import threading
 from config import *
 
 try:
@@ -51,7 +52,7 @@ def paint_game():
              
 
 if __name__ =='__main__':
-	th = thread.start_new_thread(keypress, ())
+	th = threading.Thread(target=keypress).start()
 	while 1:
 		if char is not None:
 			if char == 'w' and line_now != 1:
