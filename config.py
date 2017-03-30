@@ -1,10 +1,16 @@
 char = None
+k = 0
 line_now = 2
-height = 3
+height = 10
 width = 30
 border = list(width * "#")
 line_with_spacecar = list("#"+">00>"+(width - 6 )*" " + "#")
 empty_line = list("#" + (width -2)* " " + "#")
 i_for_meteorit  = 0
 hp = 2
-spaces_level  = 7
+spaces_level  = 4
+line_without_spacecar = []
+for i in range(height):
+	line_without_spacecar.append(empty_line)
+lines = []
+
