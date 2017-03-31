@@ -35,8 +35,8 @@ def paint_game():
 		k += 1
 	print(to_str(line_with_spacecar))
 	for i in range(height-line_now):
-		k += 1
 		print(to_str(line_without_spacecar[k]))
+		k += 1
 	print(to_str(border))
 def new_meteorit():
 	global i_for_meteorit
@@ -57,20 +57,28 @@ def new_meteorit():
 def proverka_na_simvol():
 	global hp,line_now,char
 	if char is not None:
+				
 			if char == 'w' and line_now != 1:
 				if "*" in line_without_spacecar[line_now -2][1:6] :
 					#to do hp * count *
-					# to do "*  "-->"    "
-					#to do fix bug with border
-					
-					hp -= 2
+					c = 0
+					for i in line_without_spacecar[line_now -2][1:6]:
+						if i == "*":
+							c += 1
+					hp -= 2 * c
+					line_without_spacecar[line_now -2][1:5] = " " * 5
 					line_now -= 1
 				else:
 					line_now -= 1
 				char = None
 			elif char == 's' and line_now != height:
 				if "*" in line_without_spacecar[line_now][1:6]:
-					hp -= 2
+					c = 0
+					for i in line_without_spacecar[line_now][1:6]:
+						if i == "*":
+							c += 1
+					hp -= 2 * c
+					line_without_spacecar[line_now][1:5] = " " * 5
 					line_now += 1
 				else:	
 					line_now += 1
