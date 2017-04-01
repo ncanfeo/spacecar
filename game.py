@@ -28,7 +28,7 @@ def clear_screen():
 def paint_game():
 	k = 0
 	clear_screen()
-	print(str(hp) + "\r")
+	print("Health: " + str(hp) + "\r")
 	print(to_str(border))
 	for i in range(height - 1 -(height-line_now)):
 		print(to_str(line_without_spacecar[i]))
@@ -38,6 +38,7 @@ def paint_game():
 		print(to_str(line_without_spacecar[k]))
 		k += 1
 	print(to_str(border))
+	print("")
 def new_meteorit():
 	global i_for_meteorit
 	i_for_meteorit += 1
@@ -58,11 +59,11 @@ def proverka_na_simvol():
 	global hp,line_now,char
 	if char is not None:
 				
-			if char == 'w' and line_now != 1:
-				if "*" in line_without_spacecar[line_now -2][1:6] :
+			if char.lower() == 'w' and line_now != 1:
+				if "*" in line_without_spacecar[line_now -2][1:5] :
 					#to do hp * count *
 					c = 0
-					for i in line_without_spacecar[line_now -2][1:6]:
+					for i in line_without_spacecar[line_now -2][1:5]:
 						if i == "*":
 							c += 1
 					hp -= 2 * c
@@ -71,23 +72,29 @@ def proverka_na_simvol():
 				else:
 					line_now -= 1
 				char = None
-			elif char == 's' and line_now != height:
-				if "*" in line_without_spacecar[line_now -1][1:6]:
+			elif char.lower() == 's' and line_now != height:
+				if "*" in line_without_spacecar[line_now -1][1:5]:
 					c = 0
-					for i in line_without_spacecar[line_now -1][1:6]:
+					for i in line_without_spacecar[line_now -1][1:5]:
 						if i == "*":
 							c += 1
 					hp -= 2 * c
-					line_without_spacecar[line_now -1][1:6] = " " * 5
+					line_without_spacecar[line_now -1][1:5] = " " * 5
 					line_now += 1
 				else:	
 					line_now += 1
 				char = None
 			elif char == 'q':
 				sys.exit()
+			
 if __name__ =='__main__':
 	th = threading.Thread(target=keypress).start()
 	while 1:
+		if hp == 0:
+			clear_screen()
+
+			print(gameover)
+			sys.exit()
 		proverka_na_simvol()
 		new_meteorit()
 		paint_game()
