@@ -51,7 +51,7 @@ def new_meteorit():
 		for i in range(z - 1):
 			line_without_spacecar[o]  = line_without_spacecar[o][1:width]+[" "]
 			o += 1
-		line_without_spacecar[z] = line_without_spacecar[z][1:width]+["\033[96m*\033[0m"]
+		line_without_spacecar[z] = line_without_spacecar[z][1:width]+["\033[96m{}\033[0m".format(znak)]
 		for i in range(height - z):
 			line_without_spacecar[o]  = line_without_spacecar[o][1:width]+[" "]
 			o += 1
@@ -60,10 +60,10 @@ def proverka_na_simvol():
 	if char is not None:
 				
 			if char.lower() == 'w' and line_now != 1:
-				if "\033[96m*\033[0m" in line_without_spacecar[line_now -2][1:5] :
+				if "\033[96m{}\033[0m".format(znak) in line_without_spacecar[line_now -2][1:5] :
 					c = 0
 					for i in line_without_spacecar[line_now -2][1:5]:
-						if i == "\033[96m*\033[0m":
+						if i == "\033[96m{}\033[0m".format(znak):
 							c += 1
 					hp -= 2 * c
 					line_without_spacecar[line_now -2][1:5] = " " * 5
@@ -72,10 +72,10 @@ def proverka_na_simvol():
 					line_now -= 1
 				char = None
 			elif char.lower() == 's' and line_now != height:
-				if "\033[96m*\033[0m" in line_without_spacecar[line_now -1][1:5]:
+				if "\033[96m{}\033[0m".format(znak) in line_without_spacecar[line_now -1][1:5]:
 					c = 0
 					for i in line_without_spacecar[line_now -1][1:5]:
-						if i == "\033[96m*\033[0m":
+						if i == "\033[96m{}\033[0m".format(znak):
 							c += 1
 					hp -= 2 * c
 					line_without_spacecar[line_now -1][1:5] = " " * 5
