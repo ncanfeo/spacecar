@@ -83,6 +83,8 @@ def proverka_na_simvol():
 				else:	
 					line_now += 1
 				char = None
+			elif char == " ":
+				pass 
 			elif char == 'q':
 				sys.exit()
 			
