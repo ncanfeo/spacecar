@@ -51,7 +51,7 @@ def new_meteorit():
 		for i in range(z - 1):
 			line_without_spacecar[o]  = line_without_spacecar[o][1:width]+[" "]
 			o += 1
-		line_without_spacecar[z] = line_without_spacecar[z][1:width]+["*"]
+		line_without_spacecar[z] = line_without_spacecar[z][1:width]+["\033[96m*\033[0m"]
 		for i in range(height - z):
 			line_without_spacecar[o]  = line_without_spacecar[o][1:width]+[" "]
 			o += 1
@@ -60,11 +60,10 @@ def proverka_na_simvol():
 	if char is not None:
 				
 			if char.lower() == 'w' and line_now != 1:
-				if "*" in line_without_spacecar[line_now -2][1:5] :
-					#to do hp * count *
+				if "\033[96m*\033[0m" in line_without_spacecar[line_now -2][1:5] :
 					c = 0
 					for i in line_without_spacecar[line_now -2][1:5]:
-						if i == "*":
+						if i == "\033[96m*\033[0m":
 							c += 1
 					hp -= 2 * c
 					line_without_spacecar[line_now -2][1:5] = " " * 5
@@ -73,10 +72,10 @@ def proverka_na_simvol():
 					line_now -= 1
 				char = None
 			elif char.lower() == 's' and line_now != height:
-				if "*" in line_without_spacecar[line_now -1][1:5]:
+				if "\033[96m*\033[0m" in line_without_spacecar[line_now -1][1:5]:
 					c = 0
 					for i in line_without_spacecar[line_now -1][1:5]:
-						if i == "*":
+						if i == "\033[96m*\033[0m":
 							c += 1
 					hp -= 2 * c
 					line_without_spacecar[line_now -1][1:5] = " " * 5
@@ -88,14 +87,13 @@ def proverka_na_simvol():
 				sys.exit()
 			
 if __name__ =='__main__':
-	th = threading.Thread(target=keypress).start()
+	threading.Thread(target=keypress).start()
 	while 1:
-		if hp == 0:
+		if hp < 1:
 			clear_screen()
-
 			print(gameover)
 			sys.exit()
 		proverka_na_simvol()
 		new_meteorit()
 		paint_game()
-		time.sleep(0.25)
+		time.sleep(delay)
