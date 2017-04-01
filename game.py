@@ -72,13 +72,13 @@ def proverka_na_simvol():
 					line_now -= 1
 				char = None
 			elif char == 's' and line_now != height:
-				if "*" in line_without_spacecar[line_now][1:6]:
+				if "*" in line_without_spacecar[line_now -1][1:6]:
 					c = 0
-					for i in line_without_spacecar[line_now][1:6]:
+					for i in line_without_spacecar[line_now -1][1:6]:
 						if i == "*":
 							c += 1
 					hp -= 2 * c
-					line_without_spacecar[line_now][1:5] = " " * 5
+					line_without_spacecar[line_now -1][1:6] = " " * 5
 					line_now += 1
 				else:	
 					line_now += 1
