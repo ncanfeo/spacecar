@@ -18,9 +18,9 @@ except ImportError:
 
 
 def keypress():
-    global char
-    while 1:
-        char = getch()
+	global char
+	while game:
+		char = getch()
 
 
 def to_str(my_list):
@@ -74,7 +74,7 @@ def new_meteorit():
 
 
 def proverka_na_simvol():
-    global hp, line_now, char
+    global hp, line_now, char,game
     if char is not None:
 
         if char.lower() == 'w' and line_now != 1:
@@ -108,17 +108,17 @@ def proverka_na_simvol():
         elif char == " ":
             pass
         elif char == 'q':
-            sys.exit()
+            game = 0
 
 
 if __name__ == '__main__':
     threading.Thread(target=keypress).start()
-    while 1:
+    while game:
         if hp < 1:
-            clear_screen()
-            print(gameover)
-            sys.exit()
+            game = 0 
         proverka_na_simvol()
         new_meteorit()
         paint_game()
         time.sleep(delay)
+    clear_screen()
+    print(gameover)
