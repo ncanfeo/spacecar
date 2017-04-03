@@ -50,13 +50,12 @@ def new_meteorit():
     i_for_meteorit += 1
     if i_for_meteorit % (spaces_level):
         for i in range(len(line_without_spacecar)):
-            if i == line_now - 1:
+            if i == line_now -1:
                 line_without_spacecar[
                     i] = spacecar + line_without_spacecar[i][5:width] + [" "]
             else:
-                line_without_spacecar[
-                    i] = line_without_spacecar[i][1:width] + [" "]
-
+                line_without_spacecar[i] = line_without_spacecar[i][1:width] + [" "]
+            
     else:
         z = randint(0, height)
         o = 0
@@ -78,7 +77,7 @@ def new_meteorit():
                 z] = spacecar + line_without_spacecar[z][5:width] + [znak]
             o += 1
         for i in range(height - z):
-            if o != line_now - 1:
+            if z != line_now - 1:
                 line_without_spacecar[
                     o] = line_without_spacecar[o][1:width] + [" "]
                 o += 1
@@ -86,6 +85,8 @@ def new_meteorit():
                 line_without_spacecar[
                     o] = spacecar + line_without_spacecar[o][5:width] + [" "]
                 o += 1
+                
+                
 
 
 def proverka_na_simvol():
@@ -93,37 +94,26 @@ def proverka_na_simvol():
     if char is not None:
 
         if char.lower() == 'w' and line_now != 1:
-            c = 0
-            for i in line_without_spacecar[line_now - 2][1:4]:
-                if i == znak:
-                    c += 1
-            hp -= 2 * c
-            line_without_spacecar[line_now - 1] = [
-                " ", " ", " ", " ", " "
-            ] + line_without_spacecar[line_now - 1][5:width]
-            line_without_spacecar[
-                line_now -
-                2] = spacecar + line_without_spacecar[line_now -
-                                                      2][5:width] + [" "]
-            line_now -= 1
-            char = None
-        elif char.lower() == 's' and line_now != height + 1:
+                c = 0
+                for i in line_without_spacecar[line_now - 2][1:4]:
+                    if i == znak:
+                        c += 1
+                hp -= 2 * c
+                line_without_spacecar[line_now -1] = [" "," "," "," "," "] + line_without_spacecar[line_now -1][5:width]
+                line_without_spacecar[line_now -2] = spacecar + line_without_spacecar[line_now - 2][5:width] + [" "]
+                line_now -= 1
+                char = None
+        elif char.lower() == 's' and line_now != height  + 1:
             #if spacecar in line_without_spacecar[line_now - 1][1:5]:
-            c = 0
-            for i in line_without_spacecar[line_now][1:4]:
-                if i == znak:
-                    c += 1
-            hp -= 2 * c
-            line_without_spacecar[line_now - 1] = [
-                " ", " ", " ", " ", " "
-            ] + line_without_spacecar[line_now - 1][5:width]
-            line_without_spacecar[
-                line_now] = spacecar + line_without_spacecar[line_now][5:
-                                                                       width] + [
-                                                                           " "
-                                                                       ]
-            line_now += 1
-            char = None
+                c = 0
+                for i in line_without_spacecar[line_now][1:4]:
+                    if i == znak:
+                        c += 1
+                hp -= 2 * c
+                line_without_spacecar[line_now -1] = [" "," "," "," "," "] + line_without_spacecar[line_now -1][5:width]
+                line_without_spacecar[line_now] =  spacecar + line_without_spacecar[line_now][5:width] + [" "]
+                line_now += 1
+                char = None
         elif char == " ":
             pass
         elif char == 'q':
