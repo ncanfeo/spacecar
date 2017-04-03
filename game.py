@@ -22,6 +22,11 @@ def keypress():
     while game:
         char = getch()
 
+def score():
+    global my_score
+    while game:
+        my_score += 1
+        time.sleep(1)
 
 def to_str(my_list):
     return "#" + "".join(my_list) + "#\r"
@@ -35,14 +40,14 @@ def clear_screen():
 
 
 def paint_game():
-    k = 0
-    clear_screen()
-    print("Health: " + str(hp) + "\r")
-    print(to_str(border))
-    for i in range(len(line_without_spacecar)):
-        print(to_str(line_without_spacecar[i]))
-    print(to_str(border))
-    print("")
+        k = 0
+        clear_screen()
+        print("Health: " + str(hp) + "  Time: " + str(my_score) + "\r")
+        print(to_str(border))
+        for i in range(len(line_without_spacecar)):
+            print(to_str(line_without_spacecar[i]))
+        print(to_str(border))
+        print("")
 
 
 def new_meteorit():
@@ -71,11 +76,11 @@ def new_meteorit():
                 o += 1
         if z != line_now - 1:
             line_without_spacecar[
-                z] = line_without_spacecar[z][1:width] + [znak]
+                z] = line_without_spacecar[z][1:width] + [choice(znaks)]
             o += 1
         else:
             line_without_spacecar[
-                z] = spacecar + line_without_spacecar[z][5:width] + [znak]
+                z] = spacecar + line_without_spacecar[z][5:width] + [choice(znaks)]
             o += 1
         for i in range(height - z):
             if o != line_now - 1:
@@ -97,6 +102,8 @@ def proverka_na_simvol():
             for i in line_without_spacecar[line_now - 2][1:4]:
                 if i == znak:
                     c += 1
+                if i == happy_znak:
+                    c -= 1
             hp -= 2 * c
             line_without_spacecar[line_now - 1] = [
                 " ", " ", " ", " ", " "
@@ -113,6 +120,8 @@ def proverka_na_simvol():
             for i in line_without_spacecar[line_now][1:4]:
                 if i == znak:
                     c += 1
+                if i == happy_znak:
+                    c -= 1
             hp -= 2 * c
             line_without_spacecar[line_now - 1] = [
                 " ", " ", " ", " ", " "
@@ -128,15 +137,23 @@ def proverka_na_simvol():
             pass
         elif char == 'q':
             game = 0
-
+    if znak in line_without_spacecar[line_now -1][5] :
+        hp -= 1
+        line_without_spacecar[line_now -1][5] = " "
+    if happy_znak in line_without_spacecar[line_now -1][5] :
+        hp += 1
+        line_without_spacecar[line_now -1][5] = " "
+    
 
 if __name__ == '__main__':
+    threading.Thread(target=score).start()
     threading.Thread(target=keypress).start()
+    # threading.Thread(target=paint_game).start()
     while game:
         if hp < 1:
             game = 0
-        new_meteorit()
         proverka_na_simvol()
+        new_meteorit()
         paint_game()
         time.sleep(delay)
     clear_screen()

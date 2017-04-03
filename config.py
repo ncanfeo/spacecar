@@ -9,8 +9,9 @@ Grey = '\033[90m'
 Black = '\033[90m'
 Default = '\033[99m'
 End = '\033[0m'
-spacecar = list(">00>")
+spacecar = [">","0","0",">"]
 #spacecar = list("{1}>{2}{0}00{2}{1}>{2}".format(NavyBlue, Red, End))
+procent_of_happy_znak = 5
 char = None
 k = 0
 line_now = 2
@@ -34,7 +35,14 @@ gameover = '''{0}   _____          __  __ ______    ______      ________ _____  
  | |__| |/ ____ \| |  | | |____  | |__| | \  /  | |____| | \ \  |_|\r
   \_____/_/    \_\_|  |_|______|  \____/   \/   |______|_|  \_\ (_)\r{1}'''.format(
     Yellow, End)
-delay = 0.1
+delay = 0.25
 znak2 = "@"
 game = 1
+happy_znak2 = "&"
+happy_znak = "{}{}{}".format(Yellow, happy_znak2, End)
 znak ="{}{}{}".format(Cyan, znak2, End)
+my_score = 0
+znaks = []
+for i in range((100 // procent_of_happy_znak) -1):
+	znaks.append(znak)
+znaks.append(happy_znak)
