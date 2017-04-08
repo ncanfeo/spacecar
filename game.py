@@ -85,17 +85,25 @@ def new_meteorit():
             line_without_spacecar[
                 z] = spacecar + line_without_spacecar[z][5:] + [choice(znaks)]
             
-        for i in range(height - z):
-            if i + o != line_now - 1:
-                line_without_spacecar[i+
-                    o] = line_without_spacecar[i +o][1:]  + [" "]
-                
+        for i in range(height - z + 1):
+            if i + o != line_now - 1  :
+                try:
+                    
+                        line_without_spacecar[i+
+                            o] = line_without_spacecar[i +o][1:]  + [" "]
+                except:
+                        line_without_spacecar[i+
+                            o - 1] = line_without_spacecar[i +o - 1][1:]  + [" "]
+                    
                 
             else:
-                
-                line_without_spacecar[
-                    i +o] = spacecar + line_without_spacecar[i +o][5:]  + [" "]
-
+                try:
+                    
+                        line_without_spacecar[i+
+                            o] = spacecar + line_without_spacecar[i +o][5:]  + [" "]
+                except:
+                        line_without_spacecar[i+
+                            o - 1] = spacecar + line_without_spacecar[i +o - 1][5:]  + [" "]
 
 def proverka_na_simvol():
     global hp, line_now, char, game
