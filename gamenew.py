@@ -19,16 +19,16 @@ hp = 10
 spaces_level = 1
 for i in range(height):
     lines.append(list(width * " "))
-lines[line_now] = (width) * [" "]
+lines[line_now] = (width - 4) * [" "]
 gameover = '''{0}   _____          __  __ ______    ______      ________ _____    _\r
   / ____|   /\   |  \/  |  ____|  / __ \ \    / /  ____|  __ \  | |\r
  | |  __   /  \  | \  / | |__    | |  | \ \  / /| |__  | |__) | | |\r
  | | |_ | / /\ \ | |\/| |  __|   | |  | |\ \/ / |  __| |  _  /  | |\r
  | |__| |/ ____ \| |  | | |____  | |__| | \  /  | |____| | \ \  |_|\r
   \_____/_/    \_\_|  |_|______|  \____/   \/   |______|_|  \_\ (_)\r{1}'''.format(Yellow, End)
-delay = 0.5
+delay = 0.2
 game = True
-happy_znak = "&" #"#"{}&{}".format(Yellow,End)
+happy_znak = "$"#"{}&{}".format(Yellow,End)
 znak =  "#"  #"{}@{}".format(Cyan,End)
 my_score = 0
 ##############################################################
@@ -86,16 +86,16 @@ def delete_symvol():
     o = 0
     for i in lines:
         if o == line_now:
-            i.pop(4)
+            i.pop(0)
         else:
             i.pop(0)
         o += 1
 
 def bom():
     global hp
-    if znak in lines[line_now][4] :
+    if znak in lines[line_now][0] :
         hp -= 1
-    if happy_znak in lines[line_now][4] :
+    if happy_znak in lines[line_now][0] :
         hp += 1
 def move():
     global hp , line_now , char , game , lines
@@ -106,19 +106,18 @@ def move():
                     hp += 2
                 if i == znak:
                     hp -= 2
+            lines[line_now] = [" "," "," "," "] + lines[line_now]
+            lines[line_now - 1] = lines[line_now + 1][4:]
             line_now -= 1
-            #lines[line_now][4:] = lines[line_now]
-            #lines[line_now + 1] = [" ", " ", " ", " "] + lines[line_now]
         elif char.lower() == 's' and line_now != len(lines) -1 :
             for i in lines[line_now + 1][0:4]:
                 if i == happy_znak:
                     hp += 2
                 if i == znak:
                     hp -= 2
+            lines[line_now] = [" ", " ", " ", " "] + lines[line_now]
+            lines[line_now + 1] = lines[line_now + 1][4:]
             line_now += 1
-            #lines[line_now][4:] = lines[line_now]
-            #lines[line_now - 1] = [" "," "," "," "] + lines[line_now]
-
         elif char == " ":
             pass
         elif char == 'q':
@@ -133,7 +132,7 @@ def paint():
         if o != line_now:
             print(to_str(i))
         else:
-            print("#"+spacecar  + "".join(i)[4:] + "#\r")
+            print("#"+spacecar  + "".join(i)[:] + "#\r")
         o += 1
     print(border)
 
@@ -142,6 +141,7 @@ if __name__ == '__main__':
     threading.Thread(target=keypress).start()
     while game:
         if hp < 1:
+
             game = False
         bom()
         move()
