@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import os, time, sys, threading
 from random import randint
 #config
@@ -11,8 +12,8 @@ End = '\033[0m'
 spacecar ="{}>00>{}".format(Red,End) #[">","0","0",">"]
 char = None
 line_now = 2
-height = 9
-width = 30
+height = 20
+width = 60
 border = (width + 2) * "#"
 i_for_meteorit = 0
 hp = 10
@@ -28,8 +29,8 @@ gameover = '''{0}   _____          __  __ ______    ______      ________ _____  
   \_____/_/    \_\_|  |_|______|  \____/   \/   |______|_|  \_\ (_)\r{1}'''.format(Yellow, End)
 delay = 0.2
 game = True
-happy_znak = "$"#"{}&{}".format(Yellow,End)
-znak =  "#"  #"{}@{}".format(Cyan,End)
+happy_znak = "{}&{}".format(Yellow,End)
+znak =  "{}@{}".format(Cyan,End)
 my_score = 0
 ##############################################################
 try:
@@ -68,15 +69,15 @@ def clear_screen():
 
 def new_meteor():
     global  lines
-    if randint(1,20) < 6 :
+    if randint(1,20) < 4 :
         for i in lines:
-            which_meteor = randint(1, 10)
-            if which_meteor == 10:
-                i += happy_znak
-            elif which_meteor < 6:
-                i += znak
+            which_meteor = randint(1, 20)
+            if which_meteor == 20:
+                i += [happy_znak]
+            elif which_meteor < 15:
+                i += [znak]
             else:
-                i += " "
+                i += [" "]
     else:
          for i in lines:
              i += " "
@@ -107,7 +108,7 @@ def move():
                 if i == znak:
                     hp -= 2
             lines[line_now] = [" "," "," "," "] + lines[line_now]
-            lines[line_now - 1] = lines[line_now + 1][4:]
+            lines[line_now - 1] = lines[line_now - 1][4:]
             line_now -= 1
         elif char.lower() == 's' and line_now != len(lines) -1 :
             for i in lines[line_now + 1][0:4]:
@@ -141,7 +142,6 @@ if __name__ == '__main__':
     threading.Thread(target=keypress).start()
     while game:
         if hp < 1:
-
             game = False
         bom()
         move()
@@ -151,5 +151,3 @@ if __name__ == '__main__':
         time.sleep(delay)
     clear_screen()
     print(gameover)
-
-
